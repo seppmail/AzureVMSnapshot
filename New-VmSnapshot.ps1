@@ -10,7 +10,7 @@ $VMName = 'MyVM'
 $snapShotRGName = 'rg-snapshots'
 $vmResourceGroupName = 'rg-vms'
 $snapShotName = $VMName + '_' + 'OSDisk_SnapShot' + '_' + ("{0:mmhhddMMyyyy}" -f (Get-Date))
-$snapShotVariableName = 'CurrentSEPPmailSnapshot'
+$snapShotVariableName = 'CurrentVMSnapshot'
 
 #Authentication
 Write-Verbose 'Reading Credentials and values'
