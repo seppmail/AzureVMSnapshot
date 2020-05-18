@@ -1,5 +1,7 @@
 # Module Import
+Import-Module Az.Accounts
 Import-Module Az.Compute
+Import-Module Az.Resources
 
 $TenantID = '00000000-0000-0000-0000-000000000000'
 $SubscriptionID = '00000000-0000-0000-0000-000000000000'
@@ -8,7 +10,7 @@ $VMName = 'MyVM'
 $snapShotRGName = 'rg-snapshots'
 $vmResourceGroupName = 'rg-vms'
 $snapShotName = $VMName + '_' + 'OSDisk_SnapShot' + '_' + ("{0:mmhhddMMyyyy}" -f (Get-Date))
-
+$snapShotVariableName = 'CurrentSEPPmailSnapshot'
 
 #Authentication
 Write-Verbose 'Reading Credentials and values'
@@ -33,9 +35,9 @@ $SnapshotConfigParam = @{
     CreateOption = 'Copy'
 }
 $snapShotConfig = New-AzSnapshotConfig @SnapShotConfigParam
-$snapShot = New-AzSnapshot -ResourceGroupName $snapshotRGName -SnapshotName $snapShotName -Snapshot $snapShotConfig
+New-AzSnapshot -ResourceGroupName $snapshotRGName -SnapshotName $snapShotName -Snapshot $snapShotConfig
 
-Set-AutomationVariable -Name 'CurrentVMSnapshot' -Value $SnapShotName
+Set-AutomationVariable -Name $snapShotVariableName -Value $SnapShotName
 
 #Restart VM
 Start-AzVM -Name $vmName -ResourceGroupName $vmResourceGroupName -NoWait
