@@ -2,9 +2,9 @@
 
 ## Overview
 
-For appliance-type Virtual Machines, Azure Backup is not a good choice, because internal running services like databases wont most likely not be backed up correctly. In this case snapshots may be a better way to get a consistent state of a VM for recovery purposes.
+For appliance-type Linux-VM´s like SEPPmail, Azure Backup is not a good choice, because internal running services like databases wont most likely be backed up correctly. In this case snapshots are a better way to get a consistent state of a VM for recovery purposes.
 
-This script is a example on how to create a snapshot of a VM and restore the VM from this snapshot. The platform it runs on is Azure Automation because its flexibility on scheduling and remote triggering (Webhooks). With a little bit of modification, you be able to run this from your workstation or any other automation platform.
+The scripts in this example show how to create a snapshot of a VM and restore the VM from this snapshot. The platform it runs on is Azure Automation because its flexibility on scheduling and remote triggering (Webhooks). With a little bit of modification, you be able to run this from your workstation or any other automation platform.
 
 ## Prerequisites
 
@@ -12,6 +12,7 @@ You need:
 
 * Azure Subscription and a working VM inside
 * Contributor rights on the resources we use in the Subscription
+* Admin rights in the Tenant to register an App.
 
 ## Preparation
 
@@ -32,15 +33,21 @@ Collect some information to prepare the script:
   * The resource group of the Automation Account
 * The Azure Location the snapshot and the new disk shall be created
 
+We assume the snapshot and the VM are located in the same tenant/subscription.
+
 ## Setup
 
 1. First create the App Registration and assign contributor rights to the resources as described above.
 2. Create the Azure Automation Account
 3. Then create the Credential object in Azure Automation and remember its name
-4. Create the Variable called "CurrentSEPPmailSnapshot" in Azure Automation with value 'never run' (or something similar).
-5. Import the missing Modules Az.Compute and Az.Accounts
+4. Create the cariable called "CurrentVMSnapshot" in Azure Automation with value 'never run' (or something similar).
+5. Import the missing Modules Az.Accounts, Az.Compute and Az.Resources
 6. Import the two Powershell scripts as runbooks into Azure Automation
-7. Fill in correct values into the authentication and Variables-Section of the 2 runbooks
+7. Fill in correct values into the authentication and variables-section of the 2 runbooks.
+8. Run New-VMSnapshot to create a snapshot
+9. Run Set-VmToLatestSnapshot to restore to the latest snapshot.
+
+!! Be aware that restoring to a snapshot reboots the VM and deletes all changes which have been done in between snapshot time and restore time. !!
 
 ## What the runbooks actually does
 
@@ -55,6 +62,6 @@ If the VM needs to be restored to the latest snapshot, the runbook authenticates
 
 ## Notes
 
-Snapshots and new disks consume storage space. The script has no option to do housekeeping and get rid of old snapshots or disks. If you plan to use this in production, you need to extend the script for your needs. Also things like error handling and proper reporting/notification might be something you may implement.
+Snapshots and new disks consume storage space. The script has no option to do housekeeping and get rid of old snapshots or disks. If you plan to use this in production, you need to extend the script for your needs to balance costs and meaningful operation. Also things like error handling and proper reporting/notification might be something you may implement.
 
 ## END
