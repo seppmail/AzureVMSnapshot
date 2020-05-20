@@ -28,6 +28,7 @@ Collect some information to prepare the script:
   * A variable to store the current name of the Snapshot
   * Az.Accounts module installed in its current version
   * Az.Compute module installed in its current version
+  * Az.Resources module installed in its current version
 * The names of:
   * The resource groups of the VM and the one for the Snapshot (may be the same)
   * The resource group of the Automation Account
