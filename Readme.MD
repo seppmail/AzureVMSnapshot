@@ -2,17 +2,17 @@
 
 ## Overview
 
-For appliance-type Linux-VM´s like SEPPmail, Azure Backup is not a good choice, because internal running services like databases wont most likely be backed up correctly. In this case snapshots are a better way to get a consistent state of a VM for recovery purposes.
+For appliance-type Linux-VM´s like SEPPmail, Azure Backup is not a good choice, because internal running services like databases will most likely not be backed up correctly. In this case snapshots are a better way to get a consistent state of a VM for recovery purposes.
 
-The scripts in this example show how to create a snapshot of a VM and restore the VM from this snapshot. The platform it runs on is Azure Automation because its flexibility on scheduling and remote triggering (Webhooks). With a little bit of modification, you be able to run this from your workstation or any other automation platform.
+The scripts in this example demonstrates how to create a snapshot of a VM and restore the VM from this snapshot. The platform it runs on is Azure Automation because of its flexibility on scheduling and remote triggering (Webhooks). With a little bit of modification, you will be able to run this from your workstation or any other automation platform.
 
 ## Prerequisites
 
-You need:
+You will need:
 
 * Azure Subscription and a working VM inside
-* Contributor rights on the resources we use in the Subscription
-* Admin rights in the Tenant to register an App.
+* Contributor rights on the resources used in the Subscription
+* Admin rights in the Tenant to register an App
 
 ## Preparation
 
@@ -59,7 +59,7 @@ Then the VM and its OSDisk is identified and the VM is shut down. A snapshot fro
 
 ### Set-VmToLatestSnapshot.ps1
 
-If the VM needs to be restored to the latest snapshot, the runbook authenticates to the tenant, selects the right subscription and first created a new disk of the latest snapshot. The new disk will have the same name like the Snapshot. After disk creation the VM gets stopped, and the new OSDisk is configured for the VM. Then the VM is started with the new disk.
+If the VM needs to be restored to the latest snapshot, the runbook authenticates to the tenant, selects the right subscription and first creates a new disk of the latest snapshot. The new disk will have the same name like the Snapshot. After disk creation the VM gets stopped, and the new OSDisk is configured for the VM. Then the VM is started with the new disk.
 
 ## Notes
 
